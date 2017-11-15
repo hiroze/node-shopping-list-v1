@@ -1,3 +1,4 @@
+'use strict';
 
 const express = require('express');
 const router = express.Router();
@@ -5,6 +6,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const {ShoppingList} = require('./models');
+const {Recipes} = require('./models');
 
 const jsonParser = bodyParser.json();
 const app = express();
@@ -22,6 +24,13 @@ ShoppingList.create('peppers', 4);
 // all current ShoppingList items
 app.get('/shopping-list', (req, res) => {
   res.json(ShoppingList.get());
+});
+
+Recipes.create('chocolate milk', ['cocoa', 'milk', 'sugar']);
+Recipes.create('ice cream', ['cream', 'milk', 'sugar']);
+
+app.get('/recipes', function (req, res){
+  res.json(Recipes.get());
 });
 
 app.listen(process.env.PORT || 8080, () => {
